@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LINGUA · KWT2026 CAT</title>
+  <meta name="description" content="A minimalist, futuristic computer-assisted translation platform with translation memory, contextual glossary and Polish spell checking." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>◭</text></svg>" />
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <!-- ░░ Top bar ░░ -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">◭</span>
+      <div class="brand-text">
+        <strong>LINGUA</strong>
+        <span>KWT2026 · CAT</span>
+      </div>
+    </div>
+
+    <div class="langpair" title="Source → Target language">
+      <span class="lang">EN</span>
+      <svg viewBox="0 0 24 24" class="arrow"><path d="M4 12h15m0 0-5-5m5 5-5 5"/></svg>
+      <span class="lang">PL</span>
+    </div>
+
+    <div class="progress" title="Confirmed segments">
+      <div class="progress-ring">
+        <svg viewBox="0 0 44 44">
+          <circle class="ring-bg" cx="22" cy="22" r="19" />
+          <circle class="ring-fg" id="ring" cx="22" cy="22" r="19" />
+        </svg>
+        <span id="ringPct">0%</span>
+      </div>
+      <div class="progress-meta">
+        <span id="statConfirmed">0 / 0 segments</span>
+        <span id="statWords" class="muted">0 words</span>
+      </div>
+    </div>
+
+    <div class="spacer"></div>
+
+    <div class="toolbar">
+      <span id="spellStatus" class="chip chip-loading" title="Polish spell checker">
+        <span class="dot"></span> Spell-check
+      </span>
+      <button class="btn ghost" id="btnSample">Load sample</button>
+      <button class="btn ghost" id="btnImport">Import text</button>
+      <input type="file" id="fileInput" accept=".txt,text/plain" hidden />
+      <div class="menu">
+        <button class="btn ghost" id="btnMenu" aria-haspopup="true">Data ▾</button>
+        <div class="menu-pop" id="menuPop" hidden>
+          <button data-act="export-tm">Export TM (.json)</button>
+          <button data-act="import-tm">Import TM (.json)</button>
+          <button data-act="export-bi">Export translation (.txt)</button>
+          <button data-act="reset">Reset everything</button>
+        </div>
+      </div>
+      <input type="file" id="tmFileInput" accept=".json,application/json" hidden />
+    </div>
+  </header>
+
+  <!-- ░░ Main ░░ -->
+  <main class="workspace">
+    <!-- Segment grid -->
+    <section class="editor" id="editor">
+      <div class="editor-head">
+        <div class="col-idx">#</div>
+        <div class="col-src">Source · English</div>
+        <div class="col-tgt">Target · Polish</div>
+      </div>
+      <div class="segments" id="segments"></div>
+
+      <div class="empty-state" id="emptyState">
+        <div class="empty-glyph">◭</div>
+        <h2>Start translating</h2>
+        <p>Import a <strong>.txt</strong> file or load the sample text. Each sentence becomes a segment you translate on the right.</p>
+        <div class="empty-actions">
+          <button class="btn primary" id="btnSample2">Load sample text</button>
+          <button class="btn ghost" id="btnImport2">Import .txt</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Insight panel -->
+    <aside class="insight">
+      <nav class="tabs" id="tabs">
+        <button class="tab active" data-tab="tm">Memory <span class="badge" id="tmBadge">0</span></button>
+        <button class="tab" data-tab="gloss">Glossary <span class="badge" id="glossBadge">0</span></button>
+        <button class="tab" data-tab="qa">Spelling <span class="badge" id="qaBadge">0</span></button>
+      </nav>
+
+      <div class="panel active" id="panel-tm">
+        <p class="panel-hint" id="tmHint">Select a segment to see translation-memory matches.</p>
+        <div class="cards" id="tmCards"></div>
+      </div>
+
+      <div class="panel" id="panel-gloss">
+        <p class="panel-hint" id="glossHint">Glossary terms found in the current source segment appear here.</p>
+        <div class="cards" id="glossCards"></div>
+        <details class="termbase">
+          <summary>Manage term base (<span id="glossCount">0</span>)</summary>
+          <form id="glossForm" class="termform">
+            <input name="src" placeholder="source term" required />
+            <input name="tgt" placeholder="termin docelowy" required />
+            <input name="note" placeholder="note (optional)" />
+            <button class="btn primary small" type="submit">Add term</button>
+          </form>
+          <div class="termlist" id="termList"></div>
+        </details>
+      </div>
+
+      <div class="panel" id="panel-qa">
+        <p class="panel-hint" id="qaHint">Misspelled Polish words in the current target segment will be listed here with suggestions.</p>
+        <div class="cards" id="qaCards"></div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast" hidden></div>
+
+  <script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
