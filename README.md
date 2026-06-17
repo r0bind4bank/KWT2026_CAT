@@ -44,9 +44,9 @@ python3 -m http.server 8000
 # otwórz http://localhost:8000
 ```
 
-> Słownik polski pobierany jest jednorazowo z CDN przy pierwszym uruchomieniu —
-> wymagany jest dostęp do internetu, by sprawdzanie pisowni było aktywne
-> (status pokazuje plakietka „Spell-check” w prawym górnym rogu).
+> Działa w pełni **offline** — słownik polski i silnik sprawdzania pisowni są
+> dołączone do repozytorium (`assets/dict`, `assets/js/vendor`). Nie ma żadnych
+> zależności sieciowych. Status pokazuje plakietka „Spell-check” w prawym górnym rogu.
 
 ## 🧭 Jak używać
 
@@ -74,6 +74,7 @@ KWT2026_CAT/
 ├── index.html              # struktura interfejsu
 ├── assets/
 │   ├── css/style.css       # motyw (glassmorphism + aurora)
+│   ├── dict/               # słownik Hunspell PL (offline): pl.aff, pl.dic
 │   └── js/
 │       ├── app.js          # kontroler aplikacji, wiązanie zdarzeń
 │       ├── segmenter.js    # podział tekstu na segmenty
@@ -81,18 +82,19 @@ KWT2026_CAT/
 │       ├── glossary.js     # słownik kontekstowy / baza terminologiczna
 │       ├── spellcheck.js   # sprawdzanie pisowni PL (nspell + Hunspell)
 │       ├── store.js        # warstwa localStorage
-│       └── data.js         # dane startowe (TM, słownik, przykład)
+│       ├── data.js         # dane startowe (TM, słownik, przykład)
+│       └── vendor/         # dołączony silnik nspell (offline)
 └── README.md
 ```
 
 **Stos:** czysty HTML/CSS/JS (moduły ES) · [`nspell`](https://github.com/wooorm/nspell) ·
-[`dictionary-pl`](https://github.com/wooorm/dictionaries) (CDN: esm.sh / jsDelivr).
-Brak frameworków, brak bundlera, brak backendu.
+[`dictionary-pl`](https://github.com/wooorm/dictionaries) — oba **dołączone lokalnie** do repo.
+Brak frameworków, brak bundlera, brak backendu, brak zależności sieciowych.
 
 ## 🔒 Prywatność
 
-Cała praca odbywa się lokalnie w przeglądarce. Żaden tekst nie jest wysyłany na serwer —
-jedyne zapytanie sieciowe to jednorazowe pobranie słownika ortograficznego.
+Cała praca odbywa się lokalnie w przeglądarce. Żaden tekst nie jest wysyłany na serwer,
+aplikacja nie wykonuje żadnych zapytań sieciowych — działa w 100% offline.
 
 ---
 

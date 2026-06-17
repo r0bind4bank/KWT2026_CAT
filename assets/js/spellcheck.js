@@ -3,10 +3,12 @@
 // entirely in the browser. If the dictionary can't be fetched (offline first
 // load), the checker reports as unavailable instead of giving false errors.
 
-import nspell from "https://esm.sh/nspell@2";
+import nspell from "./vendor/nspell.js";
 
-const AFF_URL = "https://cdn.jsdelivr.net/npm/dictionary-pl@2.0.0/index.aff";
-const DIC_URL = "https://cdn.jsdelivr.net/npm/dictionary-pl@2.0.0/index.dic";
+// Dictionary is bundled in the repo so spell checking works fully offline.
+// Paths resolve relative to this module, regardless of where the site is hosted.
+const AFF_URL = new URL("../dict/pl.aff", import.meta.url);
+const DIC_URL = new URL("../dict/pl.dic", import.meta.url);
 
 const WORD_RE = /[\p{L}](?:[\p{L}’'-]*[\p{L}])?/gu;
 
